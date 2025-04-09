@@ -13,6 +13,7 @@
 		_MatShadowValue("Shadow Opacity", Range(-1, 1)) = 0
 		_Id("Id", Range(0,256)) = 0			// ID act like a layer
     	_CullMode("Cull Mode", Float) = 2 // 0 = Off, 1 = Front, 2 = Back
+		_isUsingMVXData("Use MVX Data", Float) = 1 // 1 = On, 0 = Off
 	}
 
 	SubShader
@@ -37,7 +38,9 @@
 			#pragma fragment frag
 			#pragma target 5.0
 			#pragma shader_feature _CULL_FRONT _CULL_BACK
+			#pragma shader_feature _USE_MVX_DATA
 			#include "UnityCG.cginc"
+			#include "SampleMvxTexture.cginc"
 
 			struct POLTEX
 			{
@@ -114,18 +117,18 @@
 			// VERTEX FUNCTION
 			v2f vert(vertIn v)
 			{
-				
-
-
 				v2f o;
-		
-						o.uv = float2(v.uv.x * _MainTex_ST.x + _MainTex_ST.z, v.uv.y * _MainTex_ST.y + _MainTex_ST.w);
+				#ifdef _USE_MVX_DATA					
+					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				#else
+					o.uv = float2(v.uv.x * _MainTex_ST.x + _MainTex_ST.z, v.uv.y * _MainTex_ST.y + _MainTex_ST.w);
+				#endif
 				o.screenPos = UnityObjectToClipPos(v.vertex);
-
 				o.vertex = mul(_VxCamera, mul(unity_ObjectToWorld, v.vertex));
 				o.id = _Id;
 				o.color = v.color;
 				o.normal = v.normal;
+			
 				return o;
 			}
 			
@@ -135,10 +138,13 @@
 			fixed4 frag(v2f i) : SV_Target
 			{
 				int debug = 0;
-
-			// Get color from texture and multiply by vertex color
-			fixed4 texColor = tex2D(_MainTex, i.uv) * _Color; 
-	
+				#ifdef _USE_MVX_DATA
+					// Get color from mvx data and multiply by vertex color
+					fixed4 texColor = sampleMvxTex(_MainTex, i.uv) * _Color;
+				#else
+					// Get color from texture and multiply by vertex color
+					fixed4 texColor = tex2D(_MainTex, i.uv) * _Color; 
+				#endif
 			// Early exit if camera isn't assigned Depth Camera 
 			float3 cameraPos = _WorldSpaceCameraPos;
 			bool isCameraMatched = all(abs(cameraPos - _CamPos) < _CamPosThreshold);
