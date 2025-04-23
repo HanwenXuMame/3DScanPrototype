@@ -343,6 +343,10 @@ public class VxHardwareController : MonoBehaviour, IDrawable
             {
                 VXProcess.Runtime.SetTextureFilterMode(VXProcess.Runtime.GetTextureFilterMode() == 0 ? 1 : 0);
             }
+            if (VXProcess.Runtime.GetKeyDown((int)VX_KEYS.KB_L))
+            {
+                VXProcess.Runtime.SetDensity(99999);
+            }
 
             #region Turn On/Off Motor
             // Turn on and off motor
