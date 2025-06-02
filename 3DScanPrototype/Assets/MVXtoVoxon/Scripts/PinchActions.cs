@@ -15,6 +15,10 @@ public class PinchActions : MonoBehaviour
     public PinchDetector LPinchDetectorPinky;
     public PinchDetector RPinchDetectorPinky;
 
+    [Header("Pinch Settings")]
+    public float pinchActivateDistance = 0.025f;
+    public float pinchDeactivateDistance = 0.03f;
+
     [Header("Scaling Settings")]
     public float scaleSpeed = 1f;
     public float minScale = 0.1f;
@@ -28,6 +32,16 @@ public class PinchActions : MonoBehaviour
 
     private Vector3 rotationAxis = Vector3.zero;
     private float rotationAmount = 0f;
+
+    // Tracking last frame a pinch start was detected for every finger
+    private int leftIndexLastPinchStartFrame = -1;
+    private int rightIndexLastPinchStartFrame = -1;
+    private int leftMiddleLastPinchStartFrame = -1;
+    private int rightMiddleLastPinchStartFrame = -1;
+    private int leftRingLastPinchStartFrame = -1;
+    private int rightRingLastPinchStartFrame = -1;
+    private int leftPinkyLastPinchStartFrame = -1;
+    private int rightPinkyLastPinchStartFrame = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +63,27 @@ public class PinchActions : MonoBehaviour
 
         HandleScaling();
         HandleRotation();
+        SetActivateDeactivateDistances();
+    }
+
+    void SetActivateDeactivateDistances()
+    {
+        LPinchDetectorIndex.activateDistance = pinchActivateDistance;
+        LPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
+        RPinchDetectorIndex.activateDistance = pinchActivateDistance;
+        RPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
+        LPinchDetectorMiddle.activateDistance = pinchActivateDistance;
+        LPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
+        RPinchDetectorMiddle.activateDistance = pinchActivateDistance;
+        RPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
+        LPinchDetectorRing.activateDistance = pinchActivateDistance;
+        LPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
+        RPinchDetectorRing.activateDistance = pinchActivateDistance;
+        RPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
+        LPinchDetectorPinky.activateDistance = pinchActivateDistance;
+        LPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
+        RPinchDetectorPinky.activateDistance = pinchActivateDistance;
+        RPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
     }
 
     // --- Scaling ---
@@ -99,6 +134,7 @@ public class PinchActions : MonoBehaviour
     }
 
     // --- Pinch Checks ---
+
     void CheckLeftIndexPinch()
     {
         if (LPinchDetectorIndex == null) return;
@@ -111,7 +147,18 @@ public class PinchActions : MonoBehaviour
             StopScaling();
         }
         if (LPinchDetectorIndex.PinchStartedThisFrame)
-            Debug.Log("Left Index pinch started this frame.");
+        {
+            if (leftIndexLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Left Index pinch detected. Turning off scaling for Left Index.");
+                StopScaling();
+            }
+            else
+            {
+                leftIndexLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Left Index pinch started this frame.");
+            }
+        }
     }
 
     void CheckRightIndexPinch()
@@ -126,7 +173,18 @@ public class PinchActions : MonoBehaviour
             StopScaling();
         }
         if (RPinchDetectorIndex.PinchStartedThisFrame)
-            Debug.Log("Right Index pinch started this frame.");
+        {
+            if (rightIndexLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Right Index pinch detected. Turning off scaling for Right Index.");
+                StopScaling();
+            }
+            else
+            {
+                rightIndexLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Right Index pinch started this frame.");
+            }
+        }
     }
 
     void CheckLeftMiddlePinch()
@@ -141,7 +199,18 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (LPinchDetectorMiddle.PinchStartedThisFrame)
-            Debug.Log("Left Middle pinch started this frame.");
+        {
+            if (leftMiddleLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Left Middle pinch detected. Turning off rotation for Left Middle.");
+                StopRotation();
+            }
+            else
+            {
+                leftMiddleLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Left Middle pinch started this frame.");
+            }
+        }
     }
 
     void CheckRightMiddlePinch()
@@ -156,7 +225,18 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (RPinchDetectorMiddle.PinchStartedThisFrame)
-            Debug.Log("Right Middle pinch started this frame.");
+        {
+            if (rightMiddleLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Right Middle pinch detected. Turning off rotation for Right Middle.");
+                StopRotation();
+            }
+            else
+            {
+                rightMiddleLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Right Middle pinch started this frame.");
+            }
+        }
     }
 
     void CheckLeftRingPinch()
@@ -171,7 +251,18 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (LPinchDetectorRing.PinchStartedThisFrame)
-            Debug.Log("Left Ring pinch started this frame.");
+        {
+            if (leftRingLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Left Ring pinch detected. Turning off rotation for Left Ring.");
+                StopRotation();
+            }
+            else
+            {
+                leftRingLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Left Ring pinch started this frame.");
+            }
+        }
     }
 
     void CheckRightRingPinch()
@@ -186,7 +277,18 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (RPinchDetectorRing.PinchStartedThisFrame)
-            Debug.Log("Right Ring pinch started this frame.");
+        {
+            if (rightRingLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Right Ring pinch detected. Turning off rotation for Right Ring.");
+                StopRotation();
+            }
+            else
+            {
+                rightRingLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Right Ring pinch started this frame.");
+            }
+        }
     }
 
     void CheckLeftPinkyPinch()
@@ -201,7 +303,18 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (LPinchDetectorPinky.PinchStartedThisFrame)
-            Debug.Log("Left Pinky pinch started this frame.");
+        {
+            if (leftPinkyLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Left Pinky pinch detected. Turning off rotation for Left Pinky.");
+                StopRotation();
+            }
+            else
+            {
+                leftPinkyLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Left Pinky pinch started this frame.");
+            }
+        }
     }
 
     void CheckRightPinkyPinch()
@@ -216,6 +329,17 @@ public class PinchActions : MonoBehaviour
             StopRotation();
         }
         if (RPinchDetectorPinky.PinchStartedThisFrame)
-            Debug.Log("Right Pinky pinch started this frame.");
+        {
+            if (rightPinkyLastPinchStartFrame == Time.frameCount)
+            {
+                Debug.Log("Consecutive Right Pinky pinch detected. Turning off rotation for Right Pinky.");
+                StopRotation();
+            }
+            else
+            {
+                rightPinkyLastPinchStartFrame = Time.frameCount;
+                Debug.Log("Right Pinky pinch started this frame.");
+            }
+        }
     }
 }
