@@ -1,11 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Leap;
 using UnityEngine;
+using UnityEngine.Events;
+
+[Serializable]
+public class FloatEvent : UnityEvent<float> { }
+
+[Serializable]
+public class FloatFloatEvent : UnityEvent<float, float> { }
 
 public class PinchActions : MonoBehaviour
 {
-    public GameObject currentObject;
+
     public PinchDetector LPinchDetectorIndex;
     public PinchDetector RPinchDetectorIndex;
     public PinchDetector LPinchDetectorMiddle;
@@ -18,22 +26,13 @@ public class PinchActions : MonoBehaviour
     [Header("Pinch Settings")]
     public float pinchActivateDistance = 0.025f;
     public float pinchDeactivateDistance = 0.03f;
+    public float pinchCooldownTime = 0.5f;
 
-    [Header("Scaling Settings")]
-    public float scaleSpeed = 1f;
-    public float minScale = 0.1f;
-    public float maxScale = 3f;
-
-    private int scalingDirection = 0; // -1 = down, 1 = up, 0 = none
-    private float scalingFactor = 0f;
 
     [Header("Rotation Settings")]
     public float rotationSpeed = 90f; // degrees per second
 
-    private Vector3 rotationAxis = Vector3.zero;
-    private float rotationAmount = 0f;
-
-    // Tracking last frame a pinch start was detected for every finger
+    // Tracking last frame a pinch start was detected for every finger.
     private int leftIndexLastPinchStartFrame = -1;
     private int rightIndexLastPinchStartFrame = -1;
     private int leftMiddleLastPinchStartFrame = -1;
@@ -43,15 +42,61 @@ public class PinchActions : MonoBehaviour
     private int leftPinkyLastPinchStartFrame = -1;
     private int rightPinkyLastPinchStartFrame = -1;
 
-    // Start is called before the first frame update
+    // Variables for cooldown: time when each finger is next allowed to register a pinch.
+    private float leftIndexNextAvailable = 0f;
+    private float rightIndexNextAvailable = 0f;
+    private float leftMiddleNextAvailable = 0f;
+    private float rightMiddleNextAvailable = 0f;
+    private float leftRingNextAvailable = 0f;
+    private float rightRingNextAvailable = 0f;
+    private float leftPinkyNextAvailable = 0f;
+    private float rightPinkyNextAvailable = 0f;
+
+    // --- UnityEvents for each finger pinch (only start events now) ---
+    public FloatEvent OnLeftIndexPinch = new FloatEvent();
+    public FloatEvent OnRightIndexPinch = new FloatEvent();
+    public FloatEvent OnLeftMiddlePinch = new FloatEvent();
+    public FloatEvent OnRightMiddlePinch = new FloatEvent();
+    public FloatEvent OnLeftRingPinch = new FloatEvent();
+    public FloatEvent OnRightRingPinch = new FloatEvent();
+    public FloatEvent OnLeftPinkyPinch = new FloatEvent();
+    public FloatEvent OnRightPinkyPinch = new FloatEvent();
+
+    // Special UnityEvent that fires when BOTH index fingers pinch in the same frame.
+    public FloatFloatEvent OnBothIndexPinch = new FloatFloatEvent();
+
+    private bool leftIndexPinching = false;
+    private bool rightIndexPinching = false;
+
+    private bool bothIndexPinching = false;
+
+    // Add boolean flags to track the previous pinching state for each finger
+    [SerializeField]
+    private bool leftIndexWasPinching = false;
+        [SerializeField]
+    private bool rightIndexWasPinching = false;
+    [SerializeField]
+    private bool leftMiddleWasPinching = false;
+    [SerializeField]
+    private bool rightMiddleWasPinching = false;
+    [SerializeField]
+    private bool leftRingWasPinching = false;
+    [SerializeField]
+    private bool rightRingWasPinching = false;
+    [SerializeField]
+    private bool leftPinkyWasPinching = false;
+    [SerializeField]
+    private bool rightPinkyWasPinching = false;
+
     void Start()
     {
-        
+        // (Initialization as needed)
     }
 
-    // Update is called once per frame
     void Update()
     {
+        SetActivateDeactivateDistances();
+
         CheckLeftIndexPinch();
         CheckRightIndexPinch();
         CheckLeftMiddlePinch();
@@ -61,285 +106,217 @@ public class PinchActions : MonoBehaviour
         CheckLeftPinkyPinch();
         CheckRightPinkyPinch();
 
-        HandleScaling();
-        HandleRotation();
-        SetActivateDeactivateDistances();
+
+        if (leftIndexWasPinching && rightIndexWasPinching)
+        {
+            if (!bothIndexPinching)
+            {
+                bothIndexPinching = true;
+                Debug.Log("Both index fingers pinching: Left Squish = " + LPinchDetectorIndex.SquishPercent + ", Right Squish = " + RPinchDetectorIndex.SquishPercent);
+                OnBothIndexPinch.Invoke(LPinchDetectorIndex.SquishPercent, RPinchDetectorIndex.SquishPercent);
+            }
+        }
+        else
+        {
+            bothIndexPinching = false;
+        }
     }
 
     void SetActivateDeactivateDistances()
     {
-        LPinchDetectorIndex.activateDistance = pinchActivateDistance;
-        LPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
-        RPinchDetectorIndex.activateDistance = pinchActivateDistance;
-        RPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
-        LPinchDetectorMiddle.activateDistance = pinchActivateDistance;
-        LPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
-        RPinchDetectorMiddle.activateDistance = pinchActivateDistance;
-        RPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
-        LPinchDetectorRing.activateDistance = pinchActivateDistance;
-        LPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
-        RPinchDetectorRing.activateDistance = pinchActivateDistance;
-        RPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
-        LPinchDetectorPinky.activateDistance = pinchActivateDistance;
-        LPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
-        RPinchDetectorPinky.activateDistance = pinchActivateDistance;
-        RPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
+        if (LPinchDetectorIndex != null)
+        {
+            LPinchDetectorIndex.activateDistance = pinchActivateDistance;
+            LPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (RPinchDetectorIndex != null)
+        {
+            RPinchDetectorIndex.activateDistance = pinchActivateDistance;
+            RPinchDetectorIndex.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (LPinchDetectorMiddle != null)
+        {
+            LPinchDetectorMiddle.activateDistance = pinchActivateDistance;
+            LPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (RPinchDetectorMiddle != null)
+        {
+            RPinchDetectorMiddle.activateDistance = pinchActivateDistance;
+            RPinchDetectorMiddle.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (LPinchDetectorRing != null)
+        {
+            LPinchDetectorRing.activateDistance = pinchActivateDistance;
+            LPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (RPinchDetectorRing != null)
+        {
+            RPinchDetectorRing.activateDistance = pinchActivateDistance;
+            RPinchDetectorRing.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (LPinchDetectorPinky != null)
+        {
+            LPinchDetectorPinky.activateDistance = pinchActivateDistance;
+            LPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
+        }
+        if (RPinchDetectorPinky != null)
+        {
+            RPinchDetectorPinky.activateDistance = pinchActivateDistance;
+            RPinchDetectorPinky.deactivateDistance = pinchDeactivateDistance;
+        }
     }
 
-    // --- Scaling ---
-    void HandleScaling()
-    {
-        if (currentObject == null || scalingDirection == 0) return;
-
-        float scaleChange = scalingDirection * scalingFactor * scaleSpeed * Time.deltaTime;
-        Vector3 newScale = currentObject.transform.localScale + Vector3.one * scaleChange;
-
-        float clamped = Mathf.Clamp(newScale.x, minScale, maxScale);
-        newScale = new Vector3(clamped, clamped, clamped);
-
-        currentObject.transform.localScale = newScale;
-    }
-
-    public void StartScaling(int direction, float factor)
-    {
-        scalingDirection = direction;
-        scalingFactor = factor;
-    }
-
-    public void StopScaling()
-    {
-        scalingDirection = 0;
-        scalingFactor = 0f;
-    }
-
-    // --- Rotation ---
-    void HandleRotation()
-    {
-        if (currentObject == null || rotationAxis == Vector3.zero) return;
-
-        float angle = rotationAmount * rotationSpeed * Time.deltaTime;
-        currentObject.transform.Rotate(rotationAxis, angle, Space.Self);
-    }
-
-    public void StartRotation(Vector3 axis, float amount)
-    {
-        rotationAxis = axis;
-        rotationAmount = amount;
-    }
-
-    public void StopRotation()
-    {
-        rotationAxis = Vector3.zero;
-        rotationAmount = 0f;
-    }
-
-    // --- Pinch Checks ---
+    // --- Individual Finger Pinch Check Functions ---
 
     void CheckLeftIndexPinch()
     {
         if (LPinchDetectorIndex == null) return;
+
         if (LPinchDetectorIndex.IsPinching)
         {
-            StartScaling(-1, LPinchDetectorIndex.SquishPercent);
-        }
-        else if (scalingDirection == -1)
-        {
-            StopScaling();
-        }
-        if (LPinchDetectorIndex.PinchStartedThisFrame)
-        {
-            if (leftIndexLastPinchStartFrame == Time.frameCount)
+            if (!leftIndexWasPinching)
             {
-                Debug.Log("Consecutive Left Index pinch detected. Turning off scaling for Left Index.");
-                StopScaling();
+                OnLeftIndexPinch.Invoke(LPinchDetectorIndex.SquishPercent);
+                Debug.Log("Left Index is pinching with squish percent: " + LPinchDetectorIndex.SquishPercent);
+                leftIndexWasPinching = true;
             }
-            else
-            {
-                leftIndexLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Left Index pinch started this frame.");
-            }
+        }
+        else
+        {
+            leftIndexWasPinching = false;
         }
     }
 
     void CheckRightIndexPinch()
     {
         if (RPinchDetectorIndex == null) return;
+
         if (RPinchDetectorIndex.IsPinching)
         {
-            StartScaling(1, RPinchDetectorIndex.SquishPercent);
-        }
-        else if (scalingDirection == 1)
-        {
-            StopScaling();
-        }
-        if (RPinchDetectorIndex.PinchStartedThisFrame)
-        {
-            if (rightIndexLastPinchStartFrame == Time.frameCount)
+            if (!rightIndexWasPinching)
             {
-                Debug.Log("Consecutive Right Index pinch detected. Turning off scaling for Right Index.");
-                StopScaling();
+                OnRightIndexPinch.Invoke(RPinchDetectorIndex.SquishPercent);
+                Debug.Log("Right Index is pinching with squish percent: " + RPinchDetectorIndex.SquishPercent);
+                rightIndexWasPinching = true;
             }
-            else
-            {
-                rightIndexLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Right Index pinch started this frame.");
-            }
+        }
+        else
+        {
+            rightIndexWasPinching = false;
         }
     }
 
     void CheckLeftMiddlePinch()
     {
         if (LPinchDetectorMiddle == null) return;
+
         if (LPinchDetectorMiddle.IsPinching)
         {
-            StartRotation(Vector3.right, LPinchDetectorMiddle.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.right)
-        {
-            StopRotation();
-        }
-        if (LPinchDetectorMiddle.PinchStartedThisFrame)
-        {
-            if (leftMiddleLastPinchStartFrame == Time.frameCount)
+            if (!leftMiddleWasPinching)
             {
-                Debug.Log("Consecutive Left Middle pinch detected. Turning off rotation for Left Middle.");
-                StopRotation();
+                OnLeftMiddlePinch.Invoke(LPinchDetectorMiddle.SquishPercent);
+                Debug.Log("Left Middle is pinching with squish percent: " + LPinchDetectorMiddle.SquishPercent);
+                leftMiddleWasPinching = true;
             }
-            else
-            {
-                leftMiddleLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Left Middle pinch started this frame.");
-            }
+        }
+        else
+        {
+            leftMiddleWasPinching = false;
         }
     }
 
     void CheckRightMiddlePinch()
     {
         if (RPinchDetectorMiddle == null) return;
+
         if (RPinchDetectorMiddle.IsPinching)
         {
-            StartRotation(Vector3.right, RPinchDetectorMiddle.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.right)
-        {
-            StopRotation();
-        }
-        if (RPinchDetectorMiddle.PinchStartedThisFrame)
-        {
-            if (rightMiddleLastPinchStartFrame == Time.frameCount)
+            if (!rightMiddleWasPinching)
             {
-                Debug.Log("Consecutive Right Middle pinch detected. Turning off rotation for Right Middle.");
-                StopRotation();
+                OnRightMiddlePinch.Invoke(RPinchDetectorMiddle.SquishPercent);
+                Debug.Log("Right Middle is pinching with squish percent: " + RPinchDetectorMiddle.SquishPercent);
+                rightMiddleWasPinching = true;
             }
-            else
-            {
-                rightMiddleLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Right Middle pinch started this frame.");
-            }
+        }
+        else
+        {
+            rightMiddleWasPinching = false;
         }
     }
 
     void CheckLeftRingPinch()
     {
         if (LPinchDetectorRing == null) return;
+
         if (LPinchDetectorRing.IsPinching)
         {
-            StartRotation(Vector3.up, LPinchDetectorRing.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.up)
-        {
-            StopRotation();
-        }
-        if (LPinchDetectorRing.PinchStartedThisFrame)
-        {
-            if (leftRingLastPinchStartFrame == Time.frameCount)
+            if (!leftRingWasPinching)
             {
-                Debug.Log("Consecutive Left Ring pinch detected. Turning off rotation for Left Ring.");
-                StopRotation();
+                OnLeftRingPinch.Invoke(LPinchDetectorRing.SquishPercent);
+                Debug.Log("Left Ring is pinching with squish percent: " + LPinchDetectorRing.SquishPercent);
+                leftRingWasPinching = true;
             }
-            else
-            {
-                leftRingLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Left Ring pinch started this frame.");
-            }
+        }
+        else
+        {
+            leftRingWasPinching = false;
         }
     }
 
     void CheckRightRingPinch()
     {
         if (RPinchDetectorRing == null) return;
+
         if (RPinchDetectorRing.IsPinching)
         {
-            StartRotation(Vector3.up, RPinchDetectorRing.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.up)
-        {
-            StopRotation();
-        }
-        if (RPinchDetectorRing.PinchStartedThisFrame)
-        {
-            if (rightRingLastPinchStartFrame == Time.frameCount)
+            if (!rightRingWasPinching)
             {
-                Debug.Log("Consecutive Right Ring pinch detected. Turning off rotation for Right Ring.");
-                StopRotation();
+                OnRightRingPinch.Invoke(RPinchDetectorRing.SquishPercent);
+                Debug.Log("Right Ring is pinching with squish percent: " + RPinchDetectorRing.SquishPercent);
+                rightRingWasPinching = true;
             }
-            else
-            {
-                rightRingLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Right Ring pinch started this frame.");
-            }
+        }
+        else
+        {
+            rightRingWasPinching = false;
         }
     }
 
     void CheckLeftPinkyPinch()
     {
         if (LPinchDetectorPinky == null) return;
+
         if (LPinchDetectorPinky.IsPinching)
         {
-            StartRotation(Vector3.forward, LPinchDetectorPinky.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.forward)
-        {
-            StopRotation();
-        }
-        if (LPinchDetectorPinky.PinchStartedThisFrame)
-        {
-            if (leftPinkyLastPinchStartFrame == Time.frameCount)
+            if (!leftPinkyWasPinching)
             {
-                Debug.Log("Consecutive Left Pinky pinch detected. Turning off rotation for Left Pinky.");
-                StopRotation();
+                OnLeftPinkyPinch.Invoke(LPinchDetectorPinky.SquishPercent);
+                Debug.Log("Left Pinky is pinching with squish percent: " + LPinchDetectorPinky.SquishPercent);
+                leftPinkyWasPinching = true;
             }
-            else
-            {
-                leftPinkyLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Left Pinky pinch started this frame.");
-            }
+        }
+        else
+        {
+            leftPinkyWasPinching = false;
         }
     }
 
     void CheckRightPinkyPinch()
     {
         if (RPinchDetectorPinky == null) return;
+
         if (RPinchDetectorPinky.IsPinching)
         {
-            StartRotation(Vector3.forward, RPinchDetectorPinky.SquishPercent);
-        }
-        else if (rotationAxis == Vector3.forward)
-        {
-            StopRotation();
-        }
-        if (RPinchDetectorPinky.PinchStartedThisFrame)
-        {
-            if (rightPinkyLastPinchStartFrame == Time.frameCount)
+            if (!rightPinkyWasPinching)
             {
-                Debug.Log("Consecutive Right Pinky pinch detected. Turning off rotation for Right Pinky.");
-                StopRotation();
+                OnRightPinkyPinch.Invoke(RPinchDetectorPinky.SquishPercent);
+                Debug.Log("Right Pinky is pinching with squish percent: " + RPinchDetectorPinky.SquishPercent);
+                rightPinkyWasPinching = true;
             }
-            else
-            {
-                rightPinkyLastPinchStartFrame = Time.frameCount;
-                Debug.Log("Right Pinky pinch started this frame.");
-            }
+        }
+        else
+        {
+            rightPinkyWasPinching = false;
         }
     }
 }
