@@ -16,11 +16,51 @@ public class ObjectManipulation : MonoBehaviour
     private Hand rightHand;
 
     private float lastDistance = -1f;
+    public LeapProvider leapProvider;
+    private Vector3 leftPinchPosition;
+    private Vector3 rightPinchPosition;
+
+    private void OnEnable()
+    {
+        leapProvider.OnUpdateFrame += OnUpdateFrame;
+    }
+    private void OnDisable()
+    {
+        leapProvider.OnUpdateFrame -= OnUpdateFrame;
+    }
     void OnUpdateFrame(Frame frame)
     {
+
         //Use a helpful utility function to get the first hand that matches the Chirality
         leftHand = frame.GetHand(Chirality.Left);
         rightHand = frame.GetHand(Chirality.Right);
+        //When we have a valid left hand, we can begin searching for more Hand information
+        if (leftHand != null)
+        {
+            OnUpdateLeftHand(leftHand);
+        }
+        if (rightHand != null)
+        {
+            OnUpdateRightHand(rightHand);
+        }
+    }
+
+    void OnUpdateLeftHand(Hand _hand)
+    {
+        float _pinchStrength = _hand.PinchStrength;
+        float _pinchDistance = _hand.PinchDistance;
+        leftPinchPosition = _hand.GetPinchPosition();
+        Vector3 _predictedPinchPosition = _hand.GetPredictedPinchPosition();
+        bool isPinching = _hand.IsPinching();// Here we can get additional information.
+    }
+
+    void OnUpdateRightHand(Hand _hand)
+    {
+        float _pinchStrength = _hand.PinchStrength;
+        float _pinchDistance = _hand.PinchDistance;
+        rightPinchPosition = _hand.GetPinchPosition();
+        Vector3 _predictedPinchPosition = _hand.GetPredictedPinchPosition();
+        bool isPinching = _hand.IsPinching();// Here we can get additional information.
     }
 
     void Start()
@@ -40,15 +80,33 @@ public class ObjectManipulation : MonoBehaviour
         initialTransform = currentObject.transform;
     }
 
+    void Update()
+    {
+       if(pinchActions.leftIndexWasPinching && pinchActions.rightIndexWasPinching)
+        {
+            // Call the scale function with the squish values
+            ScaleObject();
+        }
+        else
+        {
+            // Reset tracking when pinching stops
+            ResetScaleTracking();
+        }
+    }
+
     // Call this function every frame while both index fingers are pinching
-    public void ScaleObject(float leftSquish, float rightSquish)
+    public void ScaleObject()
     {
         if (leftHand == null || rightHand == null)
+        {
+            Debug.LogError("Hands not detected. Ensure Leap Motion is set up correctly.");
             return;
+        }
 
-        Vector3 leftPinchPos = leftHand.GetPinchPosition();
-        Vector3 rightPinchPos = rightHand.GetPinchPosition();
-        float currentDistance = Vector3.Distance(leftPinchPos, rightPinchPos);
+
+        Debug.Log("Left Pinch Position: " + leftPinchPosition);
+        Debug.Log("Right Pinch Position: " + rightPinchPosition);
+        float currentDistance = Vector3.Distance(leftPinchPosition, rightPinchPosition);
 
         if (lastDistance < 0f)
         {

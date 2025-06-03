@@ -72,9 +72,9 @@ public class PinchActions : MonoBehaviour
 
     // Add boolean flags to track the previous pinching state for each finger
     [SerializeField]
-    private bool leftIndexWasPinching = false;
+    public bool leftIndexWasPinching = false;
         [SerializeField]
-    private bool rightIndexWasPinching = false;
+    public bool rightIndexWasPinching = false;
     [SerializeField]
     private bool leftMiddleWasPinching = false;
     [SerializeField]
@@ -177,7 +177,7 @@ public class PinchActions : MonoBehaviour
             if (!leftIndexWasPinching)
             {
                 OnLeftIndexPinch.Invoke(LPinchDetectorIndex.SquishPercent);
-                Debug.Log("Left Index is pinching with squish percent: " + LPinchDetectorIndex.SquishPercent);
+                //Debug.Log("Left Index is pinching with squish percent: " + LPinchDetectorIndex.SquishPercent);
                 leftIndexWasPinching = true;
             }
         }
@@ -196,7 +196,7 @@ public class PinchActions : MonoBehaviour
             if (!rightIndexWasPinching)
             {
                 OnRightIndexPinch.Invoke(RPinchDetectorIndex.SquishPercent);
-                Debug.Log("Right Index is pinching with squish percent: " + RPinchDetectorIndex.SquishPercent);
+                //Debug.Log("Right Index is pinching with squish percent: " + RPinchDetectorIndex.SquishPercent);
                 rightIndexWasPinching = true;
             }
         }
