@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using MVXUnity;
-using UnityEngine.InputSystem;
 
 public class MVXFileManager : MonoBehaviour
 {
