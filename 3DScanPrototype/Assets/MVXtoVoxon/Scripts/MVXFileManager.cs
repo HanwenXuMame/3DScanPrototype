@@ -52,6 +52,7 @@ public class MVXFileManager : MonoBehaviour
         {
             Debug.LogError("StreamingAssets folder not found at " + folderPath);
         }
+        LoadMVXFile();
     }
 
     // Update is called once per frame

@@ -51,7 +51,7 @@ public class ColliderGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateBoxCollider()
+    public void GenerateBoxCollider()
     {
         // Get the MeshFilter from MeshPart
         MeshFilter meshFilter = meshPart.GetComponent<MeshFilter>();

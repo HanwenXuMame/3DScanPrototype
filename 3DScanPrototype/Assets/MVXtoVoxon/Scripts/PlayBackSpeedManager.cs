@@ -53,9 +53,9 @@ public class PlayBackSpeedManager : MonoBehaviour
         }
     }
 
-    public void TogglePause()
+    public void Pause(bool pause)
     {
-        isPaused = !isPaused;
+        isPaused = pause;
         if (isPaused)
         {
             Debug.Log("Playback paused.");
