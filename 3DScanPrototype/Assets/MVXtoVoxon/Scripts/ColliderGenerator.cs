@@ -6,6 +6,7 @@ public class ColliderGenerator : MonoBehaviour
 {
     public bool updateCollider = false; // Custom bool to control collider updates
     public float generationInterval = 1.0f; // Time interval for updating the collider
+    public BoxCollider boundingBox;
 
     private GameObject meshPart; // Reference to the child object named "MeshPart"
     private BoxCollider generatedCollider; // Reference to the generated BoxCollider
@@ -84,6 +85,53 @@ public class ColliderGenerator : MonoBehaviour
 
         // Destroy the temporary BoxCollider on MeshPart
         Destroy(tempCollider);
+
+        // --- New logic: Fit object inside bounding box ---
+
+        if (boundingBox != null)
+        {
+            // Get world size of generated collider
+            Vector3 objSize = Vector3.Scale(generatedCollider.size, transform.lossyScale);
+            Vector3 boundingSize = Vector3.Scale(boundingBox.size, boundingBox.transform.lossyScale);
+
+            // Find the scale factor needed to fit the largest dimension
+            float scaleX = boundingSize.x / objSize.x;
+            float scaleY = boundingSize.y / objSize.y;
+            float scaleZ = boundingSize.z / objSize.z;
+            float minScale = Mathf.Min(scaleX, scaleY, scaleZ, 1f); // Don't upscale
+
+            // Apply uniform scaling if needed
+            if (minScale < 1f)
+            {
+                transform.localScale *= minScale;
+                // Recalculate collider size after scaling
+                objSize = Vector3.Scale(generatedCollider.size, transform.lossyScale);
+            }
+
+            // Now reposition so the object is inside the bounding box
+            // Get world bounds of object and bounding box
+            Bounds objWorldBounds = generatedCollider.bounds;
+            Bounds boundingWorldBounds = boundingBox.bounds;
+
+            Vector3 offset = Vector3.zero;
+
+            // For each axis, move object so it's inside the bounding box
+            for (int i = 0; i < 3; i++)
+            {
+                float objMin = objWorldBounds.min[i];
+                float objMax = objWorldBounds.max[i];
+                float boundMin = boundingWorldBounds.min[i];
+                float boundMax = boundingWorldBounds.max[i];
+
+                if (objMin < boundMin)
+                    offset[i] += boundMin - objMin;
+                if (objMax > boundMax)
+                    offset[i] += boundMax - objMax;
+            }
+
+            // Move the object by the offset
+            transform.position += offset;
+        }
     }
 
     // Recursive function to find a child object by name
