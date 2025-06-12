@@ -98,18 +98,15 @@ public class ColliderGenerator : MonoBehaviour
             float scaleX = boundingSize.x / objSize.x;
             float scaleY = boundingSize.y / objSize.y;
             float scaleZ = boundingSize.z / objSize.z;
-            float minScale = Mathf.Min(scaleX, scaleY, scaleZ, 1f); // Don't upscale
+            float uniformScale = Mathf.Min(scaleX, scaleY, scaleZ);
 
-            // Apply uniform scaling if needed
-            if (minScale < 1f)
-            {
-                transform.localScale *= minScale;
-                // Recalculate collider size after scaling
-                objSize = Vector3.Scale(generatedCollider.size, transform.lossyScale);
-            }
+            // Apply uniform scaling (up or down)
+            transform.localScale *= uniformScale;
+
+            // Recalculate collider size after scaling
+            objSize = Vector3.Scale(generatedCollider.size, transform.lossyScale);
 
             // Now reposition so the object is inside the bounding box
-            // Get world bounds of object and bounding box
             Bounds objWorldBounds = generatedCollider.bounds;
             Bounds boundingWorldBounds = boundingBox.bounds;
 
