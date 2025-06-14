@@ -1,6 +1,6 @@
 VXU FLAGS UPDATED, now set to 2
 
-*** VX_CS_BRIDGE START VER 0 4 6 on 6/12/2025 3:07:23 AM ***
+*** VX_CS_BRIDGE START VER 0 4 6 on 6/14/2025 4:05:50 PM ***
 Finding DLLs and Settings...
 LedHost.dll found in sys path env var, I:\VLED\System\Runtime\\LedHost.dll
 LedHost.ini found in sys path env var, I:\VLED\System\Runtime\\LedHost.ini
@@ -13,13 +13,5 @@ ledHost.ini found I:\VLED\System\Runtime\\LedHost.ini calling vxl_init()
 Initialising LedWin.dll and setting flags
 Initialising done
 StringPath=VXUB C#-Bridge.DLL version: 0.4.6;Flags=2;VXUB I C#-Bridge.DLL Interface version: 0.4.6;LedHost Path=I:\VLED\System\Runtime\\LedHost.dll;LedHostINI=I:\VLED\System\Runtime\\LedHost.ini;LedWin Path=I:\VLED\System\Runtime\\LedWin.dll;LedHost Ver=20250207145105;LedHost.dll=SYS_PATH_ENV;LedHost.ini=SYS_PATH_ENV;LedWin.dll=SYS_PATH_ENV;LedWin Ver=20250311134619;LedWin Build=0.4.6;Status:IsIntalised=False;Status:IsLoaded=True;Status:IsActive=False;
-System ready at 6/12/2025 3:07:24 AM
+System ready at 6/14/2025 4:05:50 PM
 
-Shutdown() called, shutting down, vxl_uninit() called
-Zeroing vxl_state
-
-** Unloading VX CS **
-Freed LedHost.DLL handle and set Handle to IntPtr.Zero
-Closing LedWin.DLL window & disposing
-!Don't Free Handle On Exit is enabled. LedWin.Dll handle is not being freed!
-VX CS shutdown successful

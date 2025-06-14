@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.3dconnexion.3dxunity3d": "file:C:/Program Files/3Dconnexion/3DxWare/3DxUnity3D/src",
     "com.ultraleap.dependencytoolkit": "1.0.0-pre.2",
     "com.ultraleap.tracking": "7.2.0",
     "com.ultraleap.tracking.preview": "7.2.0",
