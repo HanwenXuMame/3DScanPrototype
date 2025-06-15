@@ -1,10 +1,13 @@
 {
   "dependencies": {
-    "com.3dconnexion.3dxunity3d": {
-      "version": "file:C:/Program Files/3Dconnexion/3DxWare/3DxUnity3D/src",
+    "com.pathightree.spacenavigator-driver": {
+      "version": "https://github.com/PatHightree/SpaceNavigator.git",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {
+        "com.unity.inputsystem": "1.0.2"
+      },
+      "hash": "f7020093cf32d375549c1a8db26f06275c98e4f2"
     },
     "com.ultraleap.dependencytoolkit": {
       "version": "1.0.0-pre.2",
@@ -101,7 +104,7 @@
     },
     "com.unity.mathematics": {
       "version": "1.2.6",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -208,8 +211,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.arfoundation": {
-      "version": "5.1.2",
-      "depth": 1,
+      "version": "5.1.6",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0",

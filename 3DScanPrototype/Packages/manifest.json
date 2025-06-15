@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.3dconnexion.3dxunity3d": "file:C:/Program Files/3Dconnexion/3DxWare/3DxUnity3D/src",
+    "com.pathightree.spacenavigator-driver": "https://github.com/PatHightree/SpaceNavigator.git",
     "com.ultraleap.dependencytoolkit": "1.0.0-pre.2",
     "com.ultraleap.tracking": "7.2.0",
     "com.ultraleap.tracking.preview": "7.2.0",
@@ -11,6 +11,7 @@
     "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.10",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.2",
+    "com.unity.xr.arfoundation": "5.1.6",
     "com.unity.xr.management": "4.5.1",
     "com.unity.xr.meta-openxr": "1.0.4",
     "com.unity.xr.mock-hmd": "1.4.0-preview.2",
