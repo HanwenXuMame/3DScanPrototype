@@ -27,9 +27,9 @@ public class ConnexionControls : MonoBehaviour
         Rigidbody rb = currentObject.GetComponent<Rigidbody>();
         if (rb == null) return;
 
-        // Translation
+        // Translation (world space, not affected by character rotation)
         Vector3 translation = SpaceNavigatorHID.current.Translation.ReadValue() * translationSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + currentObject.transform.TransformDirection(translation));
+        rb.MovePosition(rb.position + translation);
 
         // Rotation (Y axis only, left/right)
         Vector3 rotation = SpaceNavigatorHID.current.Rotation.ReadValue();
