@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CombinedMeshTextured 1
+  m_Name: CombinedMeshTexturedLit
   m_Shader: {fileID: 4800000, guid: 8ad404ec17e02e949b27306f600587bf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -62,7 +62,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
-    - _CullMode: 0
+    - _CullMode: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -72,7 +72,7 @@ Material:
     - _Id: 1
     - _LumosityCullThreshold: 1
     - _MatBrightnessBoost: 1
-    - _MatShadowValue: 0
+    - _MatShadowValue: 0.313
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
