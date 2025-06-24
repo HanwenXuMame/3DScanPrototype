@@ -96,10 +96,8 @@ public class MVXFileManager : MonoBehaviour
             return;
 
         string fileName = streamingAssetsFileNames[currentIndex];
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-
-        // Assuming mvxFileDataStreamDefinition has a property called "filePath"
-        mvxFileDataStreamDefinition.filePath = filePath;
-        Debug.Log("Loading MVX file: " + filePath);
+        // Only assign the file name, not the full path
+        mvxFileDataStreamDefinition.filePath = fileName;
+        Debug.Log("Loading MVX file: " + fileName);
     }
 }

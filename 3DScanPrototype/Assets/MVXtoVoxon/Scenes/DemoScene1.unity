@@ -384,89 +384,6 @@ Transform:
   - {fileID: 388422624}
   m_Father: {fileID: 934431072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &69356318
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: PointCloud(Clone)
-  m_Shader: {fileID: 4800000, guid: c4ca23e509afdec458540c5598abcaae, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SplatScale: 10
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _VertexFromCameraMultiplier: 10
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &74166220
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +507,7 @@ MonoBehaviour:
   initialPosition: {x: 0, y: 0, z: 0}
   mainCamera: {fileID: 12057212}
   leapProvider: {fileID: 2103986806}
-  zoomSensitivity: 0.01
+  zoomSensitivity: 1
 --- !u!1 &270217906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,6 +2571,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0000000012805685
       objectReference: {fileID: 0}
+    - target: {fileID: 5428083249535634876, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
+      propertyPath: _contactMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5586254682015817918, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.03127308
@@ -4287,13 +4208,22 @@ PrefabInstance:
       value: 0.05854322
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 395024888461123201, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5428083249535634877, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1413386199}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
 --- !u!4 &559361320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5627226669328225429, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
+  m_PrefabInstance: {fileID: 559361319}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &559361321 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5428083249535634877, guid: 43529a3ed8bdcaa408ca180a258cfda5, type: 3}
   m_PrefabInstance: {fileID: 559361319}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &595078182
@@ -4451,6 +4381,95 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604619924}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &607820190
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CombinedMeshTextured 1(Clone)
+  m_Shader: {fileID: 4800000, guid: 8ad404ec17e02e949b27306f600587bf, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Id: 1
+    - _LumosityCullThreshold: 1
+    - _MatBrightnessBoost: 1
+    - _MatShadowValue: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SplatScale: 10
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _VertexFromCameraMultiplier: 1000
+    - _ZWrite: 1
+    - _isUsingMVXData: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &618992115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4812,6 +4831,89 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1893142857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &698479951
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PointCloud(Clone)
+  m_Shader: {fileID: 4800000, guid: c4ca23e509afdec458540c5598abcaae, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SplatScale: 10
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _VertexFromCameraMultiplier: 10
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &722309450
 GameObject:
   m_ObjectHideFlags: 0
@@ -5521,95 +5623,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1893142857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1253482975
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: CombinedMeshTextured 1(Clone)
-  m_Shader: {fileID: 4800000, guid: 8ad404ec17e02e949b27306f600587bf, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BumpScale: 1
-    - _CullMode: 0
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Id: 1
-    - _LumosityCullThreshold: 1
-    - _MatBrightnessBoost: 1
-    - _MatShadowValue: 0
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SplatScale: 10
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _VertexFromCameraMultiplier: 1000
-    - _ZWrite: 1
-    - _isUsingMVXData: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1268948550
 GameObject:
   m_ObjectHideFlags: 0
@@ -5848,6 +5861,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1893142857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1413386198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1413386199}
+  - component: {fileID: 1413386200}
+  m_Layer: 0
+  m_Name: NoContact
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1413386199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413386198}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.13243389, y: -0.10161224, z: 0.014659863}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 559361321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1413386200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413386198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd52cc33b860ea4fa4226eedafbdb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicalHandsManager: {fileID: 2103986806}
 --- !u!1 &1456342580
 GameObject:
   m_ObjectHideFlags: 0
@@ -7038,13 +7096,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObject: {fileID: 2111563006}
-  rotationSpeed: 30
-  scalingSpeed: 1
+  rotationSpeed: 130
+  scalingSpeed: 0.001
   translationSpeed: 1
   scaleUpInput: 101
   scaleDownInput: 113
   minScale: 0.0002
-  maxScale: 0.0015
+  maxScale: 0.003
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialScale: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2006594108
 GameObject:
   m_ObjectHideFlags: 0
@@ -7136,7 +7197,175 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a46c4494e864d448b72c4a2b123d1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotkeyEvents: []
+  hotkeyEvents:
+  - key: 275
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2006594110}
+          m_TargetAssemblyTypeName: MVXFileManager, Assembly-CSharp
+          m_MethodName: LoopMVXFiles
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 2006594110}
+          m_TargetAssemblyTypeName: MVXFileManager, Assembly-CSharp
+          m_MethodName: LoadMVXFile
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 2111563008}
+          m_TargetAssemblyTypeName: ColliderGenerator, Assembly-CSharp
+          m_MethodName: TriggerGenerateBoxColliderCoroutine
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - key: 276
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2006594110}
+          m_TargetAssemblyTypeName: MVXFileManager, Assembly-CSharp
+          m_MethodName: LoopMVXFiles
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2006594110}
+          m_TargetAssemblyTypeName: MVXFileManager, Assembly-CSharp
+          m_MethodName: LoadMVXFile
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2111563008}
+          m_TargetAssemblyTypeName: ColliderGenerator, Assembly-CSharp
+          m_MethodName: TriggerGenerateBoxColliderCoroutine
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - key: 32
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 722309451}
+          m_TargetAssemblyTypeName: PlayBackSpeedManager, Assembly-CSharp
+          m_MethodName: TogglePause
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - key: 102
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 665411605}
+          m_TargetAssemblyTypeName: ObjectManipulation, Assembly-CSharp
+          m_MethodName: ResetObjectTransform
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1944219471}
+          m_TargetAssemblyTypeName: ConnexionControls, Assembly-CSharp
+          m_MethodName: ResetTransform
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 209549607}
+          m_TargetAssemblyTypeName: ZoomIn, Assembly-CSharp
+          m_MethodName: ResetZoom
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - key: 273
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 722309451}
+          m_TargetAssemblyTypeName: PlayBackSpeedManager, Assembly-CSharp
+          m_MethodName: IncrementPlaybackSpeed
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0.5
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - key: 274
+    onKeyPressed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 722309451}
+          m_TargetAssemblyTypeName: PlayBackSpeedManager, Assembly-CSharp
+          m_MethodName: IncrementPlaybackSpeed
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: -0.5
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!21 &2072371613
 Material:
   serializedVersion: 8
@@ -7522,6 +7751,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3115925418479934076, guid: 7eb0a674050a68e41b0e89d348f66bca, type: 3}
+      propertyPath: useAsyncInit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3115925418479934076, guid: 7eb0a674050a68e41b0e89d348f66bca, type: 3}
       propertyPath: m_playAtMaxFPS
       value: 1
       objectReference: {fileID: 0}
@@ -7591,6 +7824,8 @@ MonoBehaviour:
   updateCollider: 0
   generationInterval: 1
   boundingBox: {fileID: 1630973749}
+  objectManipulation: {fileID: 665411605}
+  connexionControls: {fileID: 1944219471}
 --- !u!1 &2133953681
 GameObject:
   m_ObjectHideFlags: 0

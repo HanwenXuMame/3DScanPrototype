@@ -66,6 +66,19 @@ public class PlayBackSpeedManager : MonoBehaviour
         }
     }
 
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            Debug.Log("Playback paused.");
+        }
+        else
+        {
+            Debug.Log("Playback resumed.");
+        }
+    }
+
     public void IncrementPlaybackSpeed(float increment)
     {
         playbackSpeed += increment;

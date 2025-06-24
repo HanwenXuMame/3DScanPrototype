@@ -11,6 +11,8 @@ public class ColliderGenerator : MonoBehaviour
     private GameObject meshPart; // Reference to the child object named "MeshPart"
     private BoxCollider generatedCollider; // Reference to the generated BoxCollider
     private float timer = 0.0f; // Timer to track interval
+    public ObjectManipulation objectManipulation; // Reference to the ObjectManipulation script
+    public ConnexionControls connexionControls; // Reference to the ConnexionControls script
 
     void Start()
     {
@@ -128,7 +130,30 @@ public class ColliderGenerator : MonoBehaviour
 
             // Move the object by the offset
             transform.position += offset;
+
+            // --- Update initial position and scale in referenced scripts ---
+            if (objectManipulation != null)
+            {
+                objectManipulation.initialPosition = transform.position;
+                objectManipulation.initialScale = transform.localScale;
+            }
+            if (connexionControls != null)
+            {
+                connexionControls.initialPosition = transform.position;
+                connexionControls.initialScale = transform.localScale;
+            }
         }
+    }
+
+    IEnumerator DelayedGenerateBoxCollider(float delaySeconds = 1f)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        GenerateBoxCollider();
+    }
+    public void TriggerGenerateBoxColliderCoroutine()
+    {
+        // Start the coroutine to generate the box collider after a delay
+        StartCoroutine(DelayedGenerateBoxCollider());
     }
 
     // Recursive function to find a child object by name

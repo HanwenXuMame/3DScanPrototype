@@ -36,7 +36,7 @@ public class ZoomIn : MonoBehaviour
     private bool pinchingStarted = false;
     private float initialPinchDistance = 0f;
     public float zoomSensitivity = 0.01f; // Adjust this value to control zoom speed
-    
+
     private void OnEnable()
     {
         leapProvider.OnUpdateFrame += OnUpdateFrame;
@@ -84,7 +84,7 @@ public class ZoomIn : MonoBehaviour
 
     void Start()
     {
-        
+
         pinchActions = FindObjectOfType<PinchActions>();
         if (pinchActions == null)
         {
@@ -109,7 +109,7 @@ public class ZoomIn : MonoBehaviour
         if (!initialized) return;
 
         ApplyZoom();
-        if(pinchActions.leftIndexWasPinching && pinchActions.rightIndexWasPinching)
+        if (pinchActions.leftIndexWasPinching && pinchActions.rightIndexWasPinching)
         {
             if (!pinchingStarted)
             {
@@ -125,7 +125,8 @@ public class ZoomIn : MonoBehaviour
         }
     }
 
-    void SetZoomTarget(){
+    void SetZoomTarget()
+    {
         zoomTarget.position = (leftPinchPosition + rightPinchPosition) / 2f;
         initialPinchDistance = Vector3.Distance(leftPinchPosition, rightPinchPosition);
     }
@@ -191,5 +192,14 @@ public class ZoomIn : MonoBehaviour
 
         // Debug
         //Debug.Log($"ZoomFactor: {zoomFactor}, Scale: {newScale}, Pos: {newPosition}");
+    }
+    
+    public void ResetZoom()
+    {
+        if (!initialized) return;
+
+        zoomFactor = 0f; // Reset zoom factor
+        lastDistance = -1f; // Reset distance tracking
+        pinchingStarted = false; // Reset pinch state
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class ObjectManipulation : MonoBehaviour
 {
     public GameObject currentObject;
-    [SerializeField]private Vector3 initialPosition;
+    [SerializeField]public Vector3 initialPosition;
     [SerializeField]private Quaternion initialRotation;
-    [SerializeField]private Vector3 initialScale;
+    [SerializeField]public Vector3 initialScale;
 
     [Header("Test Settings")]
     public bool testResetObjectTransform = false;

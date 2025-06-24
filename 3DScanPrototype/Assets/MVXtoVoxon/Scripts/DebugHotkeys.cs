@@ -20,6 +20,7 @@ public class DebugHotkeys : MonoBehaviour
         {
             if (Input.GetKeyDown(hotkey.key))
             {
+                Debug.Log($"Hotkey pressed: {hotkey.key}");
                 hotkey.onKeyPressed?.Invoke();
             }
         }

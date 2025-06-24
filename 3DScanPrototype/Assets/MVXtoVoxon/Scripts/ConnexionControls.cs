@@ -13,13 +13,22 @@ public class ConnexionControls : MonoBehaviour
     public KeyCode scaleDownInput;
     public float minScale = 0.01f;
     public float maxScale = 10f;
-    // Start is called before the first frame update
+
+    // Store initial transform values
+    public Vector3 initialPosition;
+    public Vector3 initialScale;
+    public Quaternion initialRotation;
+
     void Start()
     {
-        
+        if (currentObject != null)
+        {
+            initialPosition = currentObject.transform.position;
+            initialScale = currentObject.transform.localScale;
+            initialRotation = currentObject.transform.rotation;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (currentObject == null) return;
@@ -49,5 +58,16 @@ public class ConnexionControls : MonoBehaviour
         // Clamp scale
         float clamped = Mathf.Clamp(scale.x, minScale, maxScale);
         currentObject.transform.localScale = new Vector3(clamped, clamped, clamped);
+    }
+
+    // Public function to reset position, scale, and rotation
+    public void ResetTransform()
+    {
+        if (currentObject != null)
+        {
+            currentObject.transform.position = initialPosition;
+            currentObject.transform.localScale = initialScale;
+            currentObject.transform.rotation = initialRotation;
+        }
     }
 }

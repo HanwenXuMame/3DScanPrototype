@@ -232,6 +232,7 @@ namespace MVXUnity
                 m_audioStream.dataStreamDefinition = dataStreamDefinition;
                 yield return StartCoroutine(m_audioStream.InitializeStream());
 
+
                 if (m_audioStream.isOpen)
                 {
                     m_isInitializing = false;
@@ -240,6 +241,7 @@ namespace MVXUnity
                 }
                 else
                 {
+                    yield break;
                     m_audioStream.dataStreamDefinition = null;
                     yield return m_audioStream.DisposeStream();
                     Debug.Log("Mvx: Failed to run audio stream, simple frame-rate based stream will be used");
@@ -251,6 +253,7 @@ namespace MVXUnity
             {
                 Debug.Log("Mvx2: Audio stream disabled, simple frame-rate based stream will be used");
             }
+            /*
 
             m_audioStream.enabled = false;
             m_simpleStream.enabled = true;
@@ -270,6 +273,7 @@ namespace MVXUnity
             OnInitializeEnd?.Invoke(m_simpleStream.isOpen);
 
             m_isInitializing = false;
+        */
         }
 
         public override IEnumerator DisposeStream()
